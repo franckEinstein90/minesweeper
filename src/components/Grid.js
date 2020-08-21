@@ -35,7 +35,7 @@ class Grid extends React.Component {
    }
 
    renderRow(i){
-      return (<div className="board-row">{this.row(this.state.cols,i)}</div>)
+      return ( <div className="board-row">{this.row(this.state.cols,i)}</div>)
    }
 
    renderGrid() { 
