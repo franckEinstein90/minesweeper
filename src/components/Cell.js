@@ -6,21 +6,14 @@ class Cell extends React.Component {
    constructor(props){
       super(props); 
       this.state = {
-         value: null
+         value: props.lit 
       }; 
    }
 
-   toggleState(){
-      if(this.state.value === null){
-         this.setState({value:'X'})
-      } else {
-         this.setState({value:null})
-      }
-   }
 
    render() {
     return (
-      <button className="cell" onClick={()=>this.toggleState()}>
+      <button className="cell">
          {this.state.value}
       </button>
     );

@@ -27,6 +27,7 @@ const Layout = ({ children }) => {
   return (
     <>
        <Grid />
+       {children}
     </>
   )
 }
