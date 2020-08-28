@@ -1,4 +1,25 @@
-.cell{
+
+:root {
+  --covered-color: blue;
+}
+
+.covered{
+  background: var(--covered-color); 
+  color:var(--covered-color); 
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.uncovered{
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -13,7 +34,7 @@
   width: 34px;
 }
 
-.cell:focus {
+.uncovered:focus {
   outline: none;
 }
 

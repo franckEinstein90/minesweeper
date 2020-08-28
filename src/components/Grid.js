@@ -1,11 +1,33 @@
+"use strict"; 
+
 import React from 'react';
-import Cell from './Cell'; 
 import './Grid.css';
+import './Cell.css'; 
 
 
+const cells = (function(){
+   return {
+      states : {
+         covered: 1, 
+         uncovered: 2
+      }, 
 
-const gridInfo = (rows,cols)=>Array(rows).fill(null).map((x,i)=>Array(cols).fill(i).map((i,j)=>""))
+      Cell : function( pbblty ){
+         const randomNumber = Math.random();
+         this.bomb = randomNumber <= pbblty?'X':'' 
+         this.state = cells.states.covered; 
+      }
+   }
+})(); 
 
+const bombProbability = 0.3; 
+const gridInfo = (rows,cols)=>{ //creates an empty array of covered cells
+   const newGrid = Array(rows).fill(null)
+   .map((x,i)=>Array(cols).fill(i)
+   .map((i,j)=>new cells.Cell(bombProbability)))
+
+   return newGrid; 
+}
 class Grid extends React.Component {
 
   constructor(props) {
@@ -18,11 +40,11 @@ class Grid extends React.Component {
       this.state.gridInfo =  gridInfo(this.state.rows, this.state.cols)
    } 
 
-  val(i,j){ return this.state.gridInfo[i][j] }
+  val(i,j){ return this.state.gridInfo[i][j]}
    
   setVal(i,j) {
-      let gridInfo = [...this.state.gridInfo]
-      gridInfo[i][j] = gridInfo[i][j]==='X'?"":'X' 
+      const gridInfo = [...this.state.gridInfo]; 
+      gridInfo[i][j].state = cells.states.uncovered; 
       this.setState({gridInfo})
   } 
    resetGrid(){
@@ -31,7 +53,12 @@ class Grid extends React.Component {
 
    row(numElements,i){
       return Array(numElements).fill(null)
-      .map((x,j)=><button className="cell" onClick={()=>this.setVal(i,j)}>{this.val(i,j)}</button>)
+      .map((x,j)=>{
+         const className = this.val(i,j).state ===cells.states.covered?"covered":"uncovered"; 
+         return (
+         <button className={className} onClick={()=>this.setVal(i,j)}>{this.val(i,j).bomb}</button>
+         )
+      })
    }
 
    renderRow(i){
@@ -57,11 +84,6 @@ class Grid extends React.Component {
       )
    }
 }
-
-
-
-
-
 
 export default Grid;
 
