@@ -1,8 +1,21 @@
 
 .container {
    display:flex; 
+   width:100%;
+   text-align: center;
+   background-color:red; 
 }
 
+.grid {
+  flex:1; 
+}
+.ui{
+  padding-top:100px; 
+  padding-right:30px; 
+  align-content: center;
+  display:flex; 
+  flex-direction: column;
+}
 .board-row:after {
   clear: both;
   content: "";
