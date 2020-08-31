@@ -2,14 +2,12 @@
 :root {
   --covered-color: blue;
 }
-
-.covered{
-  background: var(--covered-color); 
-  color: var(--covered-color); 
+.cell {
   float: left;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
+  border: black 1px solid; 
   height: 34px;
   margin-right: -1px;
   margin-top: -1px;
@@ -17,20 +15,15 @@
   text-align: center;
   width: 34px;
 }
-
+.covered{
+  background: var(--covered-color); 
+  color: var(--covered-color); 
+}
+.selectable{
+  cursor: pointer;
+}
 .uncovered{
   background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 34px;
 }
 
 .uncoveredBomb{

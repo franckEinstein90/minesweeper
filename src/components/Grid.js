@@ -76,14 +76,17 @@ class Grid extends React.Component {
 
       const c = this.val(i,j);
       const buttonTag = c.bomb?c.bomb:c.neighborBombs>0?c.neighborBombs:" "
-      let className = null; 
+      let className = ["cell"]; 
       if(c.state === cells.states.uncovered){
-         className = c.bomb?"uncoveredBomb":"uncovered"
+         className.push(c.bomb?"uncoveredBomb":"uncovered")
       } else {
-         className = "covered"; 
+         className.push("covered")
+         if(grids.adjacentToUncovered(this.state.gridInfo, i, j)){
+            className.push("selectable")
+         }
       }
       return (
-         <button className={className} onClick={()=>this.setVal(i,j)}>{buttonTag}</button>
+         <div className={className.join(' ')} onClick={e => this.setVal(i,j)}>{buttonTag}</div>
       )
 
   }
