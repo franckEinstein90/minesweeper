@@ -1,0 +1,17 @@
+.ui{
+    padding-top:10px; 
+    padding-right:30px; 
+    align-content: left;
+    text-align:left;
+    display:flex; 
+    flex-direction: column;
+    color:white;
+}
+.ui button {
+    margin-bottom:20px;
+    color:red; 
+}
+.ui h2{
+    color:white;
+    text-align:right;  
+}

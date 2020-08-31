@@ -26,8 +26,9 @@ const Layout = ({ children }) => {
 
   return (
     <>
-       <Grid />
-       {children}
+      <Header siteTitle="mineGrinder" />
+      <Grid rows={20} cols={20}/>
+      {children}
     </>
   )
 }
