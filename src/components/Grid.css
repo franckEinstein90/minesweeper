@@ -4,16 +4,23 @@
    width:100%;
    text-align: center;
    background-color:red; 
+    flex-wrap: nowrap; 
 }
 
 .grid {
   flex:1; 
+  flex-wrap: nowrap; 
+}
+
+.board-row{
+    display:flex; 
+    flex-wrap: nowrap; 
 }
 
 .board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+    clear: both;
+    content: "";
+    display: table;
 }
 
 .status {

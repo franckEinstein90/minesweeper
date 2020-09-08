@@ -2,7 +2,7 @@
 :root {
   --covered-color: blue;
 }
-.cell {
+.cell{
   float: left;
   font-size: 24px;
   font-weight: bold;
@@ -16,12 +16,18 @@
   width: 34px;
 }
 .covered{
-  background: var(--covered-color); 
+  background-color: var(--covered-color); 
   color: var(--covered-color); 
 }
 .selectable{
   cursor: pointer;
 }
+
+.stone {
+    background-color: orange;
+    border:none; 
+} 
+
 .uncovered{
   background: #fff;
 }

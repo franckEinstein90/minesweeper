@@ -13,12 +13,14 @@ function Trow (props){
 function Dialog( props ) {
     return ( 
        <div className="ui">
+          <h1>Playing time: {`${props.getTime()}`.padStart(3,'0')} seconds</h1>
+
           {props.children}
           <div>
              <table>
-               <Trow tag="Uncovered" value={props.uncovered}/>
+               <Trow tag="Uncovered Tiles" value={props.uncovered}/>
                <Trow tag="Uncovered Bombs" value={props.uncoveredBombs}/>
-               <Trow tag="Total Bombs" value={props.bombs}/>
+               <Trow tag="Total Bombs Remaining" value={props.bombs}/>
              </table>
           </div>
        </div>
