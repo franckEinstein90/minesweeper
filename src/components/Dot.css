@@ -1,0 +1,23 @@
+.dot{
+  background-color: orange; 
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  border: black 1px solid; 
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+  animation-name: dotEnter; 
+  animation-duration:2s;  
+}
+
+@keyframes dotEnter{
+  from {background-color:red}
+  to{background-color:orange}
+}
+
+  

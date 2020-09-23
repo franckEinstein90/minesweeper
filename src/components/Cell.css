@@ -15,10 +15,18 @@
   text-align: center;
   width: 34px;
 }
+
 .covered{
   background-color: var(--covered-color); 
-  color: var(--covered-color); 
+  color: var(--covered-color);
+  animation-name: cover; 
+  animation-duration:2s;  
 }
+@keyframes cover {
+  from {background-color:red}
+  to{background-color:var(--covered-color)}
+}
+
 .selectable{
   cursor: pointer;
 }

@@ -1,6 +1,8 @@
 .ui{
     padding-top:10px; 
-    padding-right:30px; 
+    padding-left:30px; 
+    padding-right:30px;
+    width:400px;  
     align-content: left;
     text-align:left;
     display:flex; 

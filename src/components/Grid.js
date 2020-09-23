@@ -1,15 +1,26 @@
 "use strict"; 
 
-import React from 'react';
+import React, {useContext} from 'react';
+import ReactModal from 'react-modal'; 
 import './Grid.css';
 import './Cell.css';
-import Dialog from './Dialog'; 
+import Dialog from './Dialog';
+import CellForm from './forms/CellForm'; 
+import Clock from './clock/Clock'; 
+import Dot from './Dot'; 
+import {GameContext} from './GameContext'; 
+
+ReactModal.setAppElement(`#___gatsby`);
+const constants = require('./core/constants').constants; 
 const cells = require('./core/cells').cells; 
 
-const bombProbability = 0.3;
 
-const grids = require('./core/grids').grids({bombProbability})
+const START_DOT = {
+    i: 11, 
+    j: 15
+}
 
+const grids = require('./core/grids').grids({bombProbability:constants.BOMB_PROB})
 
 class Grid extends React.Component {
 
@@ -17,52 +28,55 @@ class Grid extends React.Component {
      
         super(props);
         this.state = {
-            time: 0, 
-            start: Date.now(), 
             cols: 20, 
-            rows: 20 
+            rows: 20, 
         }
 
-        this.startTimer = this.startTimer.bind( this ); 
-        this.getTime    = this.getTime.bind( this );
-        this.resetTimer = this.resetTimer.bind( this ) ; 
+        this.state.isModalOpen = false; 
+        this.handleModalOpen = this.handleModalOpen.bind( this ); 
+        this.handleModalClose = this.handleModalClose.bind( this ); 
+
+        this.keySelect = this.keySelect.bind(this);
         this.resetGrid = this.resetGrid.bind( this );
         this.clickCellHandler = this.clickCellHandler.bind( this ); 
-        this.uncovered = this.uncovered.bind( this ); 
-        this.state.gridInfo =  grids.newGrid(this.state.rows, this.state.cols);
-        this.startTimer() ; 
+        this.uncovered = this.uncovered.bind( this );
+
+     
+        this.state.dot = START_DOT; 
+        this.state.gridInfo =  grids.newGrid(this.state.rows, this.state.cols,{
+            i:10
+        }, this.state.dot) 
+
     } 
 
-   startTimer(){
+    componentDidMount(){
+        this.resetGrid(); 
+        document.addEventListener("keydown", this.keySelect, false);
+    }
 
-      this.timer = setInterval(()=>{
-            this.setState({
-               time: Date.now() - this.state.start
-            })
-      },1000); 
+    componentWillUnmount(){
+        document.removeEventListener("keydown", this.keySelect, false);
+      }
 
-   }
+    resetGrid(){ //creates a new grid and set the state to that new grid
 
-   getTime(){
-        return Math.round(this.state.time/1000); 
-   }
+        const newGrid = grids.newGrid(this.state.rows, this.state.cols, {
+            i: 10, 
+            j: 14
+        }, START_DOT); 
+       
+        this.setState({gridInfo:newGrid}); 
+    }
 
-   resetTimer() {
-      this.setState({
-          time: 0,
-          start:Date.now()
-        })
-   }
-
-   val(i,j){ return this.state.gridInfo[i][j]}
+    val(i,j){ return this.state.gridInfo[i][j]}
 
    uncovered(){ //returns the number of uncovered cells in the grid
       return grids.uncoveredCells(this.state.gridInfo); 
    }
   
-   uncoveredBombs(){
-      return grids.uncoveredBombs(this.state.gridInfo); 
-   }
+    uncoveredBombs(){
+        return grids.uncoveredBombs(this.state.gridInfo); 
+    }
 
     bombs(){
         return grids.bombs(this.state.gridInfo); 
@@ -72,16 +86,16 @@ class Grid extends React.Component {
 
         const gridCpy = grids.clone( this.state.gridInfo ); 
         const cell = gridCpy[i][j]; 
-        cell.state = cells.states.stone;          
+        cell.state = cells.states.stone;        
+        this.setState({gridInfo:gridCpy}); 
 
     }
 
     clickCellHandler(i,j) {
 
-        if( grids.adjacentToUncovered( this.state.gridInfo, i, j) === false ) {
+        if( grids.adjacentToUncovered( this.state.gridInfo, i, j ) === false ) {
             return; 
         }
-
         const gridInfoCpy = grids.clone(this.state.gridInfo); 
         const cell =  gridInfoCpy[i][j]; 
         if(cell.bomb) {
@@ -92,33 +106,31 @@ class Grid extends React.Component {
 
     }
 
-    resetGrid(){
-
-        this.setState({gridInfo:grids.newGrid(this.state.rows, this.state.cols)}); 
-        this.resetTimer();
-
-    }
-
+   
 
     cell(i,j){
-
         const c = this.val(i,j);
-        const buttonTag = c.bomb?c.bomb:c.neighborBombs>0?c.neighborBombs:" "
+        if( c.dot ){
+            return <Dot key={0}></Dot>
+        }
+        let buttonTag = c.bomb?c.bomb:c.neighborBombs>0?c.neighborBombs:" "
         let className = ["cell"];
         
         if( c.state === cells.states.stone ) {
             className.push( "stone" ); 
         }  
+
         if(c.state === cells.states.uncovered){
-         className.push(c.bomb?"uncoveredBomb":"uncovered")
-      } else {
-         className.push("covered")
-         if(grids.adjacentToUncovered(this.state.gridInfo, i, j)){
-            className.push("selectable")
-         }
+            className.push(c.bomb?"uncoveredBomb":"uncovered") ; 
+        } else { //tile is still covered
+            className.push("covered") ; 
+            if( grids.adjacentToUncovered( this.state.gridInfo, i, j ) ) className.push("selectable") ; 
+            buttonTag = "" ; 
       }
       return (
-         <div className={className.join(' ')} onClick={e => this.clickCellHandler(i,j)}>{buttonTag}</div>
+         <div   className={className.join(' ')} 
+                onClick={e => this.clickCellHandler(i,j)}
+                key={c.id}>{buttonTag}</div>
       )
 
     }
@@ -129,27 +141,82 @@ class Grid extends React.Component {
 
     renderGrid() { 
         return Array(this.state.rows).fill(null).map((_,i)=>{
-            return (<div>{this.renderRow(i)}</div>); 
+            return (<div key={i}>{this.renderRow(i)}</div>); 
         })
     }
 
-   render(){
-      return (
-         <div className="container">
-               <div className="grid">
+  
+}
+Grid.prototype.handleModalOpen = function(event) {
+    // console.log('handleModalOpen: ', event);
+    this.setState({ isModalOpen: true })
+  }
+
+Grid.prototype.handleModalClose = function(event){
+    this.setState({ isModalOpen: false })
+}
+
+Grid.prototype.keySelect = function( event ){
+    
+    if(event.keyCode === 13){
+        this.setState({ isModalOpen: true })
+        return 
+    }
+    let direction = null; 
+    let key = constants.KEYS.find(k => k.code === event.keyCode); 
+    console.log(event.keyCode)
+
+    if ( key === undefined ) return ; 
+
+    if( key.symb === 'j' || key.symb === 'arrowDown' ){
+        direction = grids.dotDirections.down; 
+    } else if ( key.symb === 'h' || key.symb === 'arrowLeft'){
+        direction = grids.dotDirections.left
+    } else if ( key.symb === 'l' || key.symb === 'arrowRight' ){
+        direction = grids.dotDirections.right
+    } else if ( key.symb === 'k' || key.symb === 'arrowUp'){
+        direction = grids.dotDirections.up
+    } else {
+        throw "unexpected key" 
+    }
+
+    let [newGrid, dotPosition] = grids.moveDot(this.state.gridInfo, direction); 
+    this.setState({
+        gridInfo:newGrid, 
+        dot: dotPosition
+    }); 
+}
+
+Grid.prototype.render = function(){
+    return (
+       <div className="container">
+            <ReactModal
+                isOpen={this.state.isModalOpen}
+                onRequestClose={this.handleModalClose}>
+                    <CellForm dot={this.state.dot}/> 
+                    <button onClick={this.handleModalClose}>Close Modal</button>
+            </ReactModal>
+
+
+             <div className="grid"> 
                   {this.renderGrid()}
-               </div>
+            </div>
+            <div className="debug">
+               i:{this.state.dot.i} 
+               <br/>
+               j:{this.state.dot.j}
+            </div>
+
                <Dialog 
                   uncovered={this.uncovered()} 
                   bombs={this.bombs()}
                   uncoveredBombs={this.uncoveredBombs()}
-                  getTime={this.getTime}
                >
-                    <button onClick={()=>this.resetGrid()}>replay</button>
+                   <Clock/>
+                   <button onClick={()=>this.resetGrid()}>replay</button>
                </Dialog>
          </div>
    )}
-}
 
 export default Grid;
 

@@ -2,6 +2,8 @@
 
 const cells = (function(){
 
+    let cellId = 1;
+
     return {
 
         states : {
@@ -14,6 +16,8 @@ const cells = (function(){
 
         Cell : function( pbblty ){
 
+            this.id  = cellId; cellId += 1;
+            this.dot = false;  
             const randomNumber = Math.random();
             this.bomb = randomNumber <= pbblty; 
             this.state = cells.states.covered;
