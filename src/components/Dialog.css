@@ -11,7 +11,7 @@
 }
 .ui button {
     margin-bottom:20px;
-    color:red; 
+    color:var(--spanishBlue); 
 }
 .ui h2{
     color:white;

@@ -3,7 +3,7 @@
    display:flex; 
    width:100%;
    text-align: center;
-   background-color:red; 
+   background-color:blue; 
     flex-wrap: nowrap; 
 }
 
