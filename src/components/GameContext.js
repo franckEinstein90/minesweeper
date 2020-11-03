@@ -1,5 +1,12 @@
+/*********************************************************
+ * 
+ *********************************************************/
 import { checkPropTypes } from 'prop-types';
 import React, {useState, createContext} from 'react'; 
+
+
+import PlayerEnroll from "./player/PlayerEnroll";
+import Grid from "./Grid"; 
 
 export const GameContext = createContext(); 
 
@@ -34,15 +41,12 @@ export class GameProvider extends React.Component {
 
     constructor( props )   {
         super(props);
+
         this.state = {
-            playerName: 'anonymous'
-        } 
-        /*const [dotLocation, setDotLocation] = useState([
-        {
-            i:11, 
-            j:15
+            playerName: null 
         }
-        ]); */
+        this.storePlayerName = this.storePlayerName.bind( this ) ; 
+       
     } 
 
     componentDidMount(){
@@ -51,28 +55,57 @@ export class GameProvider extends React.Component {
         return cacheInfoHandler()
         .then( gc => {
             gameCache = gc
-            return gameCache.match('PLAYER_NAME')
+            return gameCache.match('PLAYER_INFO')
         })
         .then ( player => {
-            if(player === undefined){ //No stored player name, create
-                return gameCache.put('/PLAYER_INFO', new Response(
-                    '{"name": "Player 1"}'
-                ));
-            } else {
+            if(player !== undefined){ //No stored player name, create
                 let reader = player.body.getReader(); 
                 return readPlayerInfo([], reader )
             }
         })
         .then( readerText => {
-            debugger
+            if(Array.isArray(readerText)){
+                const info = JSON.parse(new TextDecoder("utf-8").decode(readerText[0]))
+                this.setState({
+                    playerName: info.name
+                })
+            }
             return 1
         })
+    }
+
+    storePlayerName( playerName ){
+        this.setState({playerName})
+        //store the name in the cache
+        return cacheInfoHandler()
+        .then( gameCache => {
+            gameCache.put('/PLAYER_INFO', new Response(
+                `{"name": "${playerName}"}`
+            ));
+        })
+   }
+
+    newPlayerEnroll(){
+        return (
+            <>
+                <PlayerEnroll storePlayerName={this.storePlayerName}/>
+            </>
+        )
+    }
+
+    game(){
+        return (
+            <>
+                <Grid id="grid" playerName={this.state.playerName} rows={20} cols={20}/>
+                {this.props.children}
+            </>
+        ); 
     }
 
     render() {
         return (
             <GameContext.Provider value={'fdsa'}>
-                {this.props.children}
+                {this.state.playerName?this.game():this.newPlayerEnroll()}
             </GameContext.Provider>
         );
     } 

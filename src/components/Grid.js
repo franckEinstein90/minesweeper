@@ -20,7 +20,7 @@ const START_DOT = {
     j: 15
 }
 
-const grids = require('./core/grids').grids({bombProbability:constants.BOMB_PROB})
+const grids = require('./core/grids').grids({bombProbability:constants.BOMB_PROB}); 
 
 class Grid extends React.Component {
 
@@ -50,6 +50,7 @@ class Grid extends React.Component {
     } 
 
     componentDidMount(){
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
         this.resetGrid(); 
         document.addEventListener("keydown", this.keySelect, false);
     }
@@ -190,21 +191,8 @@ Grid.prototype.keySelect = function( event ){
 Grid.prototype.render = function(){
     return (
        <div className="container">
-            <ReactModal
-                isOpen={this.state.isModalOpen}
-                onRequestClose={this.handleModalClose}>
-                    <CellForm dot={this.state.dot}/> 
-                    <button onClick={this.handleModalClose}>Close Modal</button>
-            </ReactModal>
-
-
              <div className="grid"> 
                   {this.renderGrid()}
-            </div>
-            <div className="debug">
-               i:{this.state.dot.i} 
-               <br/>
-               j:{this.state.dot.j}
             </div>
 
                <Dialog 
@@ -212,6 +200,7 @@ Grid.prototype.render = function(){
                   bombs={this.bombs()}
                   uncoveredBombs={this.uncoveredBombs()}
                >
+                   <h2> Player {this.props.playerName}</h2>
                    <Clock/>
                    <button onClick={()=>this.resetGrid()}>replay</button>
                </Dialog>

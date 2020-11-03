@@ -11,7 +11,6 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
-import Grid from "./Grid"
 import {GameProvider} from './GameContext'; 
 
 
@@ -29,8 +28,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header siteTitle="mineGrinder" />
-      <GameProvider>
-          <Grid id="grid" rows={20} cols={20}/>
+      <GameProvider message="hello">
       </GameProvider>
       {children}
     </>

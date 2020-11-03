@@ -1,11 +1,12 @@
 
 .container {
-   display:flex; 
-   width:100%;
-   text-align: center;
-   background-color:blue; 
-    flex-wrap: nowrap; 
+  display:flex; 
+  width:100%;
+  text-align: center;
+  background-color:blue; 
+   flex-wrap: nowrap; 
 }
+
 
 .grid {
   flex:1; 
