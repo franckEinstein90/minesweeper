@@ -24,7 +24,10 @@ class PlayerEnroll extends React.Component {
             <div className="PlayerEnroll"> 
                 <div className="modal-content">  
                     <form onSubmit={this.getPlayerInfo}>
-                        <input type="text" id="fname" value={this.state.name} onChange={this.handleChange} name="playerName" placeholder="Your name.."/>
+                        <input type="text" id="fname" 
+                            value={this.state.name} 
+                            onChange={this.handleChange} 
+                            name="playerName" placeholder="Your name.."/>
                         <input type="submit" value="PLAY"/>
                     </form> 
                 </div>

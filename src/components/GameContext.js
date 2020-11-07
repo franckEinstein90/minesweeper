@@ -10,11 +10,15 @@ import Grid from "./Grid";
 
 export const GameContext = createContext(); 
 
+const cacheName = 'mindGrinder'; 
+const playerInfoKey = 'PLAYER_INFO'
 
-const cacheInfoHandler = async function(){
-    const checkCache = 'caches' in window
-    if(checkCache === null) throw "cache api not available" 
-    return caches.open('mineGrinder') 
+const checkCache = async function(){
+
+    const checkCache = 'caches' in window ; 
+    if(checkCache === null) throw "cache api not available" ; 
+    return caches.open(cacheName) 
+  
 }
 
 const readPlayerInfo = async function( result, playerInfoReadableStream ){
@@ -40,46 +44,37 @@ const readPlayerInfo = async function( result, playerInfoReadableStream ){
 export class GameProvider extends React.Component {
 
     constructor( props )   {
-        super(props);
 
+        super(props);
         this.state = {
             playerName: null 
         }
         this.storePlayerName = this.storePlayerName.bind( this ) ; 
-       
     } 
 
     componentDidMount(){
 
-        let gameCache = null; 
-        return cacheInfoHandler()
-        .then( gc => {
-            gameCache = gc
-            return gameCache.match('PLAYER_INFO')
-        })
-        .then ( player => {
-            if(player !== undefined){ //No stored player name, create
-                let reader = player.body.getReader(); 
-                return readPlayerInfo([], reader )
-            }
-        })
+        return checkCache()
+        .then( gameCache => gameCache.match( playerInfoKey ) )  
+        .then ( player => player !== undefined 
+            ? readPlayerInfo([], player.body.getReader()) 
+            : null )
         .then( readerText => {
-            if(Array.isArray(readerText)){
-                const info = JSON.parse(new TextDecoder("utf-8").decode(readerText[0]))
+            if( readerText ){
+                let info = JSON.parse(new TextDecoder("utf-8").decode(readerText[0]))
                 this.setState({
                     playerName: info.name
                 })
             }
-            return 1
         })
     }
 
     storePlayerName( playerName ){
+
         this.setState({playerName})
-        //store the name in the cache
-        return cacheInfoHandler()
+        return checkCache()
         .then( gameCache => {
-            gameCache.put('/PLAYER_INFO', new Response(
+            gameCache.put('/' +  playerInfoKey, new Response(
                 `{"name": "${playerName}"}`
             ));
         })
@@ -105,7 +100,7 @@ export class GameProvider extends React.Component {
     render() {
         return (
             <GameContext.Provider value={'fdsa'}>
-                {this.state.playerName?this.game():this.newPlayerEnroll()}
+                {this.state.playerName? this.game() : this.newPlayerEnroll()}
             </GameContext.Provider>
         );
     } 

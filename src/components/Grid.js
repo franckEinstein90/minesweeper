@@ -2,8 +2,8 @@
 
 import React, {useContext} from 'react';
 import ReactModal from 'react-modal'; 
-import './Grid.css';
-import './Cell.css';
+import './grid/Grid.css';
+import Cell from './grid/Cell';
 import Dialog from './Dialog';
 import CellForm from './forms/CellForm'; 
 import Clock from './clock/Clock'; 
@@ -110,30 +110,17 @@ class Grid extends React.Component {
    
 
     cell(i,j){
-        const c = this.val(i,j);
+        const c = this.val(i,j)
         if( c.dot ){
             return <Dot key={0}></Dot>
         }
-        let buttonTag = c.bomb?c.bomb:c.neighborBombs>0?c.neighborBombs:" "
-        let className = ["cell"];
         
-        if( c.state === cells.states.stone ) {
-            className.push( "stone" ); 
-        }  
-
-        if(c.state === cells.states.uncovered){
-            className.push(c.bomb?"uncoveredBomb":"uncovered") ; 
-        } else { //tile is still covered
-            className.push("covered") ; 
-            if( grids.adjacentToUncovered( this.state.gridInfo, i, j ) ) className.push("selectable") ; 
-            buttonTag = "" ; 
-      }
-      return (
-         <div   className={className.join(' ')} 
-                onClick={e => this.clickCellHandler(i,j)}
-                key={c.id}>{buttonTag}</div>
-      )
-
+        return (
+            <Cell   cellState={c.state} bomb={c.bomb} i={i} j={j} 
+                    id={c.id} neighborBombs={c.neighborBombs}
+                    adjacentToUncovered = {grids.adjacentToUncovered( this.state.gridInfo, i, j )}
+                    clickCellHandler={this.clickCellHandler}/> 
+        )
     }
 
     row(numElements,i){ return Array(numElements).fill(null).map((x,j)=>this.cell(i,j)) }
@@ -144,10 +131,9 @@ class Grid extends React.Component {
         return Array(this.state.rows).fill(null).map((_,i)=>{
             return (<div key={i}>{this.renderRow(i)}</div>); 
         })
-    }
-
-  
+    }  
 }
+
 Grid.prototype.handleModalOpen = function(event) {
     // console.log('handleModalOpen: ', event);
     this.setState({ isModalOpen: true })
