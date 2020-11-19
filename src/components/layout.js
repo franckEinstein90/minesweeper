@@ -9,8 +9,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
-import "./layout.css"
+import "./layout.css"; 
+import TopNav from "./nav/TopNav"; 
 import {GameProvider} from './GameContext'; 
 
 
@@ -27,10 +27,11 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Header siteTitle="mineGrinder" />
-      <GameProvider message="hello">
-      </GameProvider>
-      {children}
+      <TopNav/>     
+      <div className="container-fluid gameContainer">
+          <GameProvider message="hello"/>
+          {children}
+      </div>
     </>
   )
 }

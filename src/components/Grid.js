@@ -176,21 +176,23 @@ Grid.prototype.keySelect = function( event ){
 
 Grid.prototype.render = function(){
     return (
-       <div className="container">
-             <div className="grid"> 
-                  {this.renderGrid()}
-            </div>
-
-               <Dialog 
+        <div className="d-flex flex-row sticky-top">
+            <div className="grid-half">
+                <Dialog 
                   uncovered={this.uncovered()} 
                   bombs={this.bombs()}
-                  uncoveredBombs={this.uncoveredBombs()}
-               >
+                  uncoveredBombs={this.uncoveredBombs()}>
                    <h2> Player {this.props.playerName}</h2>
                    <Clock/>
                    <button onClick={()=>this.resetGrid()}>replay</button>
-               </Dialog>
-         </div>
+                </Dialog>
+            </div>
+            <div className="grid-half">      
+                <div className="grid"> 
+                  {this.renderGrid()}
+                </div>
+            </div>
+        </div>
    )}
 
 export default Grid;

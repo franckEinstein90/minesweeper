@@ -8,7 +8,19 @@ import React, {useState, createContext} from 'react';
 import PlayerEnroll from "./player/PlayerEnroll";
 import Grid from "./Grid"; 
 
-export const GameContext = createContext(); 
+export const themes = {
+    light: {
+        foreground: '#000000', 
+        background: '#eeeeee'
+    }, 
+    dark: {
+        foreground: '#ffffff', 
+        background: '#222222'
+    }
+}
+export const GameContext = createContext(
+    themes.dark
+); 
 
 const cacheName = 'mindGrinder'; 
 const playerInfoKey = 'PLAYER_INFO'
@@ -44,11 +56,12 @@ const readPlayerInfo = async function( result, playerInfoReadableStream ){
 export class GameProvider extends React.Component {
 
     constructor( props )   {
-
         super(props);
+
         this.state = {
             playerName: null 
         }
+
         this.storePlayerName = this.storePlayerName.bind( this ) ; 
     } 
 
@@ -70,7 +83,6 @@ export class GameProvider extends React.Component {
     }
 
     storePlayerName( playerName ){
-
         this.setState({playerName})
         return checkCache()
         .then( gameCache => {
@@ -92,7 +104,6 @@ export class GameProvider extends React.Component {
         return (
             <>
                 <Grid id="grid" playerName={this.state.playerName} rows={20} cols={20}/>
-                {this.props.children}
             </>
         ); 
     }

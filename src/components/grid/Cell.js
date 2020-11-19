@@ -20,9 +20,6 @@ class Cell extends React.Component {
                                 :" "
 
         const className=['cell']; 
-        if( this.props.cellState === cells.states.stone ){
-            className.push("stone")
-        }
         if( this.props.cellState === cells.states.uncovered){
             className.push(this.props.bomb?"uncoveredBomb":"uncovered") ; 
         } else { //tile is still covered 

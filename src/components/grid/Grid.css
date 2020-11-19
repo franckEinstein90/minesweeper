@@ -12,6 +12,17 @@
   flex:1; 
   flex-wrap: nowrap; 
 }
+.grid-half{
+  background-color:var(--spanishBlue); 
+  width: 65%; 
+  height:900px; 
+}
+.grid-half:first-child{
+  background-color:#ff0000; 
+  width:35%; 
+}
+
+
 
 .board-row{
     display:flex; 
