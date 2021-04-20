@@ -1,35 +1,29 @@
 import React from 'react';
-import { cells } from '../core/cells';
-import './Cell.css';
+import styles from './Cell.module.css';
 
 class Cell extends React.Component {
 
     constructor( props ) {
         super(props);
-
-
     }
 
     render(){
-        const i = this.props.i
-        const j = this.props.j
-        const buttonTag = this.props.bomb 
-                            ? ' ' 
-                            : this.props.neighborBombs>0
-                                ? this.props.neighborBombs
-                                :" "
+      const classes = [styles.cell] ; 
 
-        const className=['cell']; 
-        if( this.props.cellState === cells.states.uncovered){
-            className.push(this.props.bomb?"uncoveredBomb":"uncovered") ; 
-        } else { //tile is still covered 
-            if( this.props.adjacentToUncovered ) className.push("selectable") ; 
-            className.push("covered") ; 
-        }
-        return (
-            <div key={this.props.id} className={className.join(' ')} onClick={e => this.props.clickCellHandler(i,j)}>
-                {buttonTag}
-            </div>
+      //active class?
+      if(this.props.col === this.props.activeX && this.props.row === this.props.activeY){
+        classes.push(styles.active); 
+      }
+
+      return (
+          <div className={classes.join(' ')}>
+              <div>
+                {this.props.cellState(this.props.col, this.props.row)}
+              </div>
+               <div>
+                {`${this.props.row} - ${this.props.col}`}
+              </div>
+          </div>
         )
     }
 }

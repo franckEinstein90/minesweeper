@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "mindGrinder",
   "private": true,
   "description": "My implementation of minesweeper",
   "version": "0.1.0",
@@ -16,6 +16,7 @@
     "gatsby-source-filesystem": "^2.3.24",
     "gatsby-transformer-sharp": "^2.5.13",
     "jquery": "^3.5.1",
+    "moment": "^2.29.1",
     "popper.js": "^1.14.3",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

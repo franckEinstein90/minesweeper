@@ -1,0 +1,21 @@
+.cellRow{
+    width:100vw; 
+    height:50vh; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+     
+  @media only screen and (min-width: 600px) {
+  }
+  
+  @media only screen and (min-width: 768px) {
+      /* For desktop: */
+      .cellRow{
+
+
+      }  
+      
+  }

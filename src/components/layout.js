@@ -10,8 +10,9 @@ import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
 import "./layout.css"; 
-import TopNav from "./nav/TopNav"; 
-import {GameProvider} from './GameContext'; 
+import TopNav from "./ui/nav/TopNav"; 
+import Footer from "./ui/nav/Footer"; 
+import GameContainer from './grid/GameContainer';
 
 
 const Layout = ({ children }) => {
@@ -27,11 +28,9 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <TopNav/>     
-      <div className="container-fluid gameContainer">
-          <GameProvider message="hello"/>
-          {children}
-      </div>
+      <TopNav/>    
+      <GameContainer/> 
+      <Footer/>
     </>
   )
 }

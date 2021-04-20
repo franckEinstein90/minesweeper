@@ -8,11 +8,10 @@ import Dialog from './Dialog';
 import CellForm from './forms/CellForm'; 
 import Clock from './clock/Clock'; 
 import Dot from './Dot'; 
-import {GameContext} from './GameContext'; 
 
 ReactModal.setAppElement(`#___gatsby`);
 const constants = require('./core/constants').constants; 
-const cells = require('./core/cells').cells; 
+const cells = require('./core/cells/cells').cells; 
 
 
 const START_DOT = {

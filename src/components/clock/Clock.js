@@ -1,11 +1,24 @@
 import React from 'react';
+import moment from 'moment';
+import styles from "./Clock.module.css" ; 
+import { fiveMinuteGraduation } from "../../Alpha/time/fiveMinuteGraduation" ; 
+import { twelveHourGraduation } from "../../Alpha/time/twelveHourGraduation" ; 
+import { MinegrinderApp } from "../../Alpha/MinegrinderApp" ; 
 
+
+const format = ( num ) => {
+  const strRep = num.toString() ; //Math.abs((num%60)).toString(); 
+  return strRep.length < 2
+      ? '0' + strRep
+      : strRep; 
+}
 
 class Clock extends React.Component {  
 
-    constructor(props) {
+    constructor( props ) {
         super(props);
-        this.state = {date: new Date()};
+        const date = moment().format(); 
+        this.state = {date};
     }
 
     componentDidMount() {
@@ -20,15 +33,34 @@ class Clock extends React.Component {
     }
 
     tick() {
+        const date = moment().format(); 
         this.setState({
-          date: new Date()
+          date
         });
+        this.props.tick( date ); 
       }
 
-      render() {
+    renderFiveMinsGraduation(){
+      return fiveMinuteGraduation().map(s =>{
+        return (<div>{format(s.val)}</div>) ; 
+      })
+    }
+
+    render() {
+
       return (
-        <div>
-          <h2>{this.state.date.toLocaleTimeString()}.</h2>
+        <div className={styles.clockContainer}>
+          <div>
+            {this.state.date.split('T')[1].split('-')[0]}
+          </div>
+
+          <div className={styles.visualClockContainer}>
+            {/*this.renderFiveMinsGraduation()*/}
+            {twelveHourGraduation().map(s => {
+              return (<div>{s.val}</div>)
+            })}
+          </div>
+
         </div>
       );
     }

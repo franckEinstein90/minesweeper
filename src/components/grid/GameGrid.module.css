@@ -1,0 +1,25 @@
+     
+.cellGrid{
+  border-top-color: yellow;
+  border-top-style: solid;
+  border-top-width: 1px; 
+  border-bottom-color: yellow;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+  @media only screen and (min-width: 600px) {
+  }
+  
+  @media only screen and (min-width: 768px) {
+  
+    .cellGrid{
+        width:60vw; 
+        display:flex; 
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+      /* For desktop: */
+  }

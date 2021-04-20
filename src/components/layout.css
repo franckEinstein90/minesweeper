@@ -1,5 +1,6 @@
 :root {
   --spanishBlue: #016FB9;
+  --gOrange:#D5682B; 
 }
 
 html {
@@ -8,7 +9,6 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 101%;  
   box-sizing: border-box;
-  overflow-y: scroll;
 }
 
 body {
@@ -25,6 +25,7 @@ body {
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
   font-size: .875rem;
+  overflow-y: hidden;
 }
 
 .feather {
@@ -125,8 +126,4 @@ body {
 .form-control-dark:focus {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-}
-
-.gameContainer{
-  background-color: var(--spanishBlue); 
 }
