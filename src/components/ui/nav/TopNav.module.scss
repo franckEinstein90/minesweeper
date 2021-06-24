@@ -1,6 +1,6 @@
-
 .topNav{
     position:absolute;
+    box-sizing: border-box;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
     top:0; 
     left:0; 
@@ -8,39 +8,28 @@
     width:100%; 
     background-color: rgba(0, 0, 0, 0.2);
     height:10vh; 
+    /*******************/
     display:flex; 
     align-items:center; 
     justify-content: space-between;
+
+    /***************/
     font-size:1.5em; 
-    color:white; 
-}
-
-
-@media only screen and (min-width: 600px) {
-
-
-
-}
-
-@media only screen and (min-width: 768px) {
-    /* For desktop: */
-    .topNav>div{
-        display:flex;
-    }
-
-    .topNav>div:first-child{
-        background-color: rgba(0.5,0.5,32,0.2);
+    color:white;
+    
+    >div:first-child{
         text-align:center; 
         padding-left:30px; 
+        padding-top:3vh;
+        text-align: center;
         letter-spacing: 0.3rem;
-        width:30%;
-        font-size:1.3em;  
-    }
-
-    .topNav>div:last-child{
-        width:70%;
+        font-size:1.3em; 
+        height: 100%;
+    } 
+    
+    >div:last-child{
+        padding-right:20px; 
         align-items: center; 
         justify-content: space-around;
     }
-
 }

@@ -2,31 +2,23 @@
 import React    from 'react';
 import styles   from "./GameGrid.module.css"; 
 import CellRow  from "./CellRow";
+import * as Calendar from '../core/grid'; 
 
-import { 
-    gridLocation, Grid 
-} from '../core/grid'; 
-
-const constants = require('../core/constants').constants;
-
-
-const grids = Grid.init({
-    bombProbability : constants.BOMB_PROB
-}) ; 
-
+const defaultRows = 51 ; 
+const defaultCols = 51 ; 
 export default class GameGrid extends React.Component {  
 
     constructor(props) {
         super(props);
-        const activeCell = gridLocation(0,0); 
+        const activeCell = Calendar.gridLocation(0,0) ; 
         this.state = {
-            rows:51, 
-            cols:51, 
+            rows    :   defaultRows, 
+            cols    :   defaultCols, 
             activeCell,
             gridInfo : null
         }
         this.cellState = this.cellState.bind( this ); 
-        this.keySelect = this.keySelect.bind(this);
+        //this.keySelect = this.keySelect.bind(this);
     }
 
     componentDidMount() {
@@ -39,7 +31,7 @@ export default class GameGrid extends React.Component {
     }
 
     resetGrid(){ //creates a new grid and set the state to that new grid
-        const newGrid = Grid.new(
+        const newGrid = Calendar.Grid.new(
             this.state.rows, 
             this.state.cols, 
             this.state.activeCell )  ; 
@@ -75,6 +67,7 @@ export default class GameGrid extends React.Component {
     }
 }; 
 
+/*
 GameGrid.prototype.keySelect = function( event ){
     
     if(event.keyCode === 13){
@@ -89,7 +82,7 @@ GameGrid.prototype.keySelect = function( event ){
     if( key.symb === 'j' || key.symb === 'arrowDown' ){
       direction = grids.dotDirections.down
        /* direction = grids.dotDirections.down; */
-    } else if ( key.symb === 'h' || key.symb === 'arrowLeft'){
+ /*   } else if ( key.symb === 'h' || key.symb === 'arrowLeft'){
         direction = grids.dotDirections.left
     } else if ( key.symb === 'l' || key.symb === 'arrowRight' ){
         direction = grids.dotDirections.right
@@ -103,4 +96,4 @@ GameGrid.prototype.keySelect = function( event ){
         gridInfo:newGrid, 
         activeCell: dotPosition
     }); 
-}
+}*/

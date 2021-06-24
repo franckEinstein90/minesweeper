@@ -1,12 +1,10 @@
 "use strict"; 
 
-import { 
-    Location, Direction, CellStatus
- } from "../../Alpha/definitions" ; 
+import * as BasicTypes from "../../Alpha/definitions" ; 
 import { cellFactory } from "../../Alpha/cells/cells" ; 
 import { newGrid } from './gridHelpers/newGrid' ;
 
-export const gridLocation = (i:number ,j:number) : Location =>{
+export const gridLocation = (i:number ,j:number) : BasicTypes.Location =>{
     return {i,j}
 }
 
@@ -53,20 +51,19 @@ export const Grid = (( )=>{
 
         //returns a new grid with dot moved in
         //specified direction. 
-        moveDot :  ( 
-                    grid, 
-                    direction : Direction )  => { 
+        moveDot :  ( grid, 
+                     direction : BasicTypes.Direction )  => { 
 
             const g = [...grid];        
             g[_dotLocation.x][_dotLocation.y].dot = false; 
 
-            if( direction === Direction.down ){
+            if( direction === BasicTypes.Direction.down ){
                 _dotLocation.y += 1; 
-            } else if ( direction === Direction.up && _dotLocation.j > 0 ){
+            } else if ( direction === BasicTypes.Direction.up && _dotLocation.j > 0 ){
                 _dotLocation.y -= 1; 
-            } else if ( direction === Direction.right){
+            } else if ( direction === BasicTypes.Direction.right){
                 _dotLocation.x += 1; 
-            } else if (direction === Direction.left && _dotLocation.i > 0){
+            } else if (direction === BasicTypes.Direction.left && _dotLocation.i > 0){
                 _dotLocation.x -= 1; 
             }
             else {
@@ -74,7 +71,7 @@ export const Grid = (( )=>{
             }
 
             g[_dotLocation.x][_dotLocation.y].dot = true; 
-            g[_dotLocation.x][_dotLocation.y].state = CellStatus.uncovered; 
+            g[_dotLocation.x][_dotLocation.y].state = BasicTypes.CellStatus.uncovered; 
             return [g, _dotLocation]; 
 
         }

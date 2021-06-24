@@ -17,12 +17,8 @@ class Cell extends React.Component {
 
       return (
           <div className={classes.join(' ')}>
-              <div>
-                {this.props.cellState(this.props.col, this.props.row)}
-              </div>
-               <div>
-                {`${this.props.row} - ${this.props.col}`}
-              </div>
+              <div> { this.props.cellState(this.props.col, this.props.row) } </div>
+              <div> {`${this.props.row} - ${this.props.col}`} </div>
           </div>
         )
     }
